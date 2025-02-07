@@ -2,32 +2,14 @@ rm(list=ls())
 
 ## load library
 library(pacman)
-
-p_load(
-  "stringr","tidyverse", 
-  "Biostrings",
-  "BSgenome.Hsapiens.UCSC.hg19",
-  "dplyr", 
-  "stringr",
-  "annotate",
-  "org.Hs.eg.db",
-  "TxDb.Hsapiens.UCSC.hg19.knownGene",
-  "GenomicRanges",
-  "Homo.sapiens",
-  "GenomicFeatures",
-  "GenomicAlignments",
-  "SummarizedExperiment",
-  "MatrixGenerics",
-  "biomaRt", "memes")
-pacman::p_load(readxl, tidyverse, xlsx, data.table, dplyr, purrr, matrixStats, ggplot2, openxlsx, magrittr, gapminder,GenomicRanges)
+p_load("stringr","tidyverse", "openxlsx", "stringr", "annotate", "GenomicAlignments",
+       "BSgenome.Hsapiens.UCSC.hg19", "GenomicFeatures", "dplyr", "GenomicRanges", "readr", "purrr")
 options(scipen = 999)
 ################################# Functions ##############################
 
-## gene of interest
-goi <- c( "ASXL1", "ATM","BCOR","BCORL1","BTG1","CALR","CDKN2A","CDKN2B","CUX1","DNMT3A","ETV6",
-          "EZH2","GATA2","IKZF1","JAK2","KDM6A","KIT","KMT2D","PAX5","PHF6","PPM1D","RB1",
-          "RUNX1","SETD1B","SETD2","SF3B1","SMC3","SRSF2","STAG2","TET2","TP53","UBE2A","WT1", "MTAP", "CDKN2A-AS1","CDKN2B-AS1", 
-          "EP300", "NUP98", "CREBBP", "RAD21", "RCBTB2", "CBFB", "MYH11")
+## load your genes of interest list
+openxlsx::read.xlsx("./database/Break_GOI.xlsx") -> vars
+goi <- vars %>% as.list()
 
 
 ## Reading files with soft-clipped reads
@@ -218,7 +200,6 @@ for (k in 1:length(files_5p)) {
   new <- postdat %>%
     dplyr::filter(geneName_5p %in% goi | geneName_5p %in% "intergenic" | geneName_3p %in% goi |
                     geneName_3p %in% "intergenic" | is.na(geneName_3p)) %>%
-    dplyr::filter(!event_5p %in% c("intron-exon", "exon-intron") | event_5p %in% "intergenic") %>%
     dplyr::filter(abs(lastExDist_5p) > 10 & abs(nextExDist_5p) > 10 | is.na(lastExDist_5p) | is.na(nextExDist_5p)) %>%
     dplyr::filter(abs(lastExDist_3p) > 10 & abs(nextExDist_3p) > 10 |
                     is.na(lastExDist_3p) == T & is.na(nextExDist_3p) == T) %>%
