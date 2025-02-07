@@ -5,16 +5,7 @@ setwd("./bams/tmp_bams/bp/")
 
 ## load library
 library(pacman)
-
-p_load("tidyverse", 
-       "Biostrings", 
-       "BSgenome.Hsapiens.UCSC.hg19", 
-       "dplyr", 
-       "stringr",
-       "randomForest",
-       "DT", "ggplot2", "data.table")
-
-pacman::p_load(readxl, tidyverse, xlsx, data.table, dplyr, purrr, matrixStats, ggplot2, openxlsx, magrittr, gapminder)
+p_load("tidyverse", "dplyr", "stringr", "data.table", "openxlsx")
 options(scipen = 999)
 
 ### Functions
@@ -37,17 +28,16 @@ roi <- function(x){
   
   x <- x %>% 
     dplyr::filter(chr %in% c("chr7", "chr9", "chr12", "chr13")) %>%
-    dplyr::mutate(flag = ifelse(((acceptor_pos > 50168000 & acceptor_pos < 50519000) | (acceptor_pos > 48950000 & acceptor_pos < 49175000) | 
-                            (acceptor_pos > 21800000 & acceptor_pos < 22300000) | (acceptor_pos > 36802000 & acceptor_pos < 37053500) | 
-                            (acceptor_pos > 92146000 & acceptor_pos < 92539400) | is.na(acceptor_pos)) & 
-                           ((donor_pos > 50168000 & donor_pos < 50518000) | (donor_pos > 48950000 & donor_pos < 49175000) | 
-                              (donor_pos > 21800000 & donor_pos < 22300000) | (donor_pos > 36802000 & donor_pos < 37053500) | 
-                              (donor_pos > 92146000 & donor_pos < 92539400) | is.na(donor_pos)), paste("keep"), paste("fp") )) %>%
+    dplyr::mutate(flag = ifelse(((acceptor_pos > 50068000 & acceptor_pos < 50619000) | (acceptor_pos > 48850000 & acceptor_pos < 49275000) | 
+                            (acceptor_pos > 21700000 & acceptor_pos < 22400000) | (acceptor_pos > 36702000 & acceptor_pos < 37153500) | 
+                            (acceptor_pos > 92046000 & acceptor_pos < 92639400) | is.na(acceptor_pos)) & 
+                           ((donor_pos > 50068000 & donor_pos < 50619000) | (donor_pos > 48850000 & donor_pos < 49275000) | 
+                              (donor_pos > 21700000 & donor_pos < 22400000) | (donor_pos > 36702000 & donor_pos < 37153500) | 
+                              (donor_pos > 92046000 & donor_pos < 92639400) | is.na(donor_pos)), paste("keep"), paste("fp") )) %>%
     dplyr::filter(flag == "keep") %>%
     dplyr::select(-flag)
   x
 }
-
 #Defining function to calculate stats (11) ## For comparing multiple datasets
 calc_stat <- function(x){
   x1 <- x %>% remove_rownames() %>% 
@@ -76,11 +66,9 @@ calc_stat <- function(x){
     column_to_rownames(var = "chr__donor_pos__acceptor_pos__geneName_5p__geneName_3p__DelSize__strand_5p__strand_3p__location_5p__locNum_5p__location_3p__locNum_3p__lastExDist_5p__nextExDist_5p__lastExDist_3p__nextExDist_3p")
   x <- cbind(x5, x2, x3, x1)
 }
-# Genes of Interest
-goi <- c( "ASXL1", "ATM","BCOR","BCORL1","BTG1","CALR","CDKN2A","CDKN2B","CUX1","DNMT3A","ETV6",
-          "EZH2","GATA2","IKZF1","JAK2","KDM6A","KIT","KMT2D","PAX5","PHF6","PPM1D","RB1",
-          "RUNX1","SETD1B","SETD2","SF3B1","SMC3","SRSF2","STAG2","TET2","TP53","UBE2A","WT1", "MTAP", "CDKN2A-AS1","CDKN2B-AS1", 
-          "EP300", "NUP98", "CREBBP", "RAD21", "RCBTB2", "CBFB", "MYH11")
+# load your Genes of Interest list
+openxlsx::read.xlsx("./../../../database/Break_GOI.xlsx") -> vars
+goi <- vars %>% as.list()
 
 
 ## Reading files:
@@ -131,7 +119,7 @@ setwd("../../../../.")
 foldername <- basename(getwd())
 
 # change working directory to where the final output file has to be stored
-setwd("./BreakHunter/bams/tmp_bams/bp/")
+setwd("./BreakChaser/bams/tmp_bams/bp/")
 
 # Create a new workbook
 wb <- createWorkbook()
