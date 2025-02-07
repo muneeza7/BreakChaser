@@ -2,24 +2,8 @@ rm(list=ls())
 
 ## load library
 library(pacman)
-
-p_load(
-  "stringr","tidyverse", 
-  "Biostrings",
-  "BSgenome.Hsapiens.UCSC.hg19",
-  "dplyr", 
-  "stringr",
-  "annotate",
-  "org.Hs.eg.db",
-  "TxDb.Hsapiens.UCSC.hg19.knownGene",
-  "GenomicRanges",
-  "Homo.sapiens",
-  "GenomicFeatures",
-  "GenomicAlignments",
-  "SummarizedExperiment",
-  "MatrixGenerics",
-  "biomaRt", "memes", "readr")
-pacman::p_load(readxl, tidyverse, xlsx, data.table, dplyr, purrr, matrixStats, ggplot2, openxlsx, magrittr, gapminder)
+p_load("stringr","tidyverse", "openxlsx", "stringr", "annotate", "GenomicAlignments",
+       "BSgenome.Hsapiens.UCSC.hg19", "GenomicFeatures", "dplyr", "GenomicRanges", "readr", "purrr")
 options(scipen = 999)
 ############################################################ Functions ###############################################################################
 
