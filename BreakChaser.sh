@@ -47,7 +47,7 @@ if [ $(ls | grep -c "reads.tsv$") == 0 ]; then for i in $(ls *.b37.bam); do id=$
 
 cd ../../
 
-## BreakHunter initiating 
+## BreakChaser initiating 
 echo -e "\n Stage 1 initiating ... \n "
 Rscript --vanilla $stage1
 
