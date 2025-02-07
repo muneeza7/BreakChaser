@@ -1,12 +1,12 @@
 #!/bin/bash
 
 ################################################################################################################
-## Filename: BreakHunter.sh
+## Filename: BreakChaser.sh
 ## Created: June 13, 2024
 ## Author(s): Muneeza Maqsood, Chung Kok
 ##
 ## Purpose: 
-##      - to execute BreakHunter program with conversion format implemented
+##      - to execute BreakChaser program with conversion format implemented
 ##          
 ## Instructions:  
 ##      - perform all soft_clipped_reads.tsv files in the tmp_bams directory
@@ -34,8 +34,8 @@ fi
 
 ## pre-determined files and folders
 bamsdir=./bams/tmp_bams
-stage1=./script/BreakHunter_p1.R
-stage2=./script/BreakHunter_p2.R
+stage1=./script/BreakChaser_p1.R
+stage2=./script/BreakChaser_p2.R
 stage3=./script/PopulationSummaryBreaks.R
 tmpDir=./bams/tmp_bams/bp/tmp
 
